@@ -4,7 +4,7 @@ $(GIT_HOOK): scripts/install-git-hooks
 	@echo
 
 .PHONY: all check clean
-all: $(GIT_HOOK) check
+all: check
 .DEFAULT_GOAL := all
 
 include common.mk
@@ -35,7 +35,8 @@ TESTS = \
     list_splice_tail \
     list_splice_init \
     list_splice_tail_init \
-    list_cut_position
+    list_cut_position \
+    test_list
 
 TESTS := $(addprefix tests/,$(TESTS))
 # dependency of source files
@@ -65,3 +66,5 @@ clean:
 	$(Q)$(RM) $(TESTS) $(TESTS_OK) $(TESTS:=.o) $(TESTS:=.o.d)
 
 -include $(deps)
+style:
+	astyle --style=kr --indent=spaces=4 --suffix=none tests/*.c
