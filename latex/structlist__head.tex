@@ -1,0 +1,40 @@
+\hypertarget{structlist__head}{}\section{list\+\_\+head Struct Reference}
+\label{structlist__head}\index{list\+\_\+head@{list\+\_\+head}}
+
+
+{\ttfamily \#include $<$list.\+h$>$}
+
+
+
+Collaboration diagram for list\+\_\+head\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=176pt]{structlist__head__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structlist__head}{list\+\_\+head} $\ast$ {\bfseries prev}\hypertarget{structlist__head_ad8f06cb209b17c3a4a5b24cad8793f72}{}\label{structlist__head_ad8f06cb209b17c3a4a5b24cad8793f72}
+
+\item 
+struct \hyperlink{structlist__head}{list\+\_\+head} $\ast$ {\bfseries next}\hypertarget{structlist__head_afb6f2172d12efd37f00bb623a6885f2a}{}\label{structlist__head_afb6f2172d12efd37f00bb623a6885f2a}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+struct \hyperlink{structlist__head}{list\+\_\+head} -\/ Head and node of a double-\/linked list \+: pointer to the previous node in the list \+: pointer to the next node in the list
+
+The simple double-\/linked list consists of a head and nodes attached to this head. Both node and head share the same struct type. The list\+\_\+$\ast$ functions and macros can be used to access and modify this data structure.
+
+The  pointer of the list head points to the last list node of the list and  points to the first list node of the list. For an empty list, both member variables point to the head.
+
+The list nodes are usually embedded in a container structure which holds the actual data. Such an container object is called entry. The helper list\+\_\+entry can be used to calculate the object address from the address of the node. 
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/list.\+h\item 
+include/mylist.\+h\end{DoxyCompactItemize}

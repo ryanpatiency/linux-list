@@ -20,6 +20,7 @@ int main()
     /* or you could have declared this with the following macro
      * LIST_HEAD(mylist); which declares and initializes the list
      */
+//    LIST_HEAD(mylist);
 
     /* adding elements to mylist */
     for (i = 5; i != 0; --i) {
