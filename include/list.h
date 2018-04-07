@@ -423,11 +423,23 @@ static inline void list_move_tail(struct list_head *node,
  *
  * FIXME: remove dependency of __typeof__ extension
  */
+#ifndef __MOFFSET
+#define __moffset(entry, member) ((char *)&entry->member - (char *)entry)
+#endif
+
 #define list_for_each_entry_safe(entry, safe, head, member)                \
+        for (entry =  (void*)((char *)(head)->next - __moffset(entry, member)), \
+            safe = (void*)((char *)entry->member.next - __moffset(entry, member)); \
+             &entry->member != (head); entry = safe,                           \
+            safe = (void*)((char *)safe->member.next - __moffset(entry, member)))
+
+#define mylist_for_each_entry_safe(entry, safe, head, member)                \
     for (entry = list_entry((head)->next, __typeof__(*entry), member),     \
         safe = list_entry(entry->member.next, __typeof__(*entry), member); \
          &entry->member != (head); entry = safe,                           \
         safe = list_entry(safe->member.next, __typeof__(*entry), member))
+
+
 
 #undef __LIST_HAVE_TYPEOF
 
