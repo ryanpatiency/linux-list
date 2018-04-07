@@ -3,14 +3,23 @@ $(GIT_HOOK): scripts/install-git-hooks
 	@$<
 	@echo
 
-.PHONY: all check clean
-all: check
+.PHONY: all check clean example
+all: check 
 .DEFAULT_GOAL := all
 
 include common.mk
 
 CFLAGS = -I./include
 CFLAGS += -std=c99 -pedantic -Wall -W -Werror
+
+EXAMPLES = \
+	insert-sort \
+	quick-sort \
+	test_list \
+	
+EXAMPLES := $(addprefix examples/,$(EXAMPLES))
+
+example: $(EXAMPLES)
 
 TESTS = \
     containerof \
@@ -40,6 +49,7 @@ TESTS = \
 TESTS := $(addprefix tests/,$(TESTS))
 # dependency of source files
 deps := $(TESTS:%:%.o.d)
+deps += $(EXAMPLES:%:%.o.d)
 
 TESTS_OK = $(TESTS:=.ok)
 
@@ -55,14 +65,23 @@ $(TESTS_OK): %.ok: %
 .c.o:
 	$(VECHO) "  CC\t$@\n"
 	$(Q)$(CC) -o $@ $(CFLAGS) -c -MMD -MF $@.d $<
+%.c:
+	$(VECHO) "  CC\t$@\n"
+	$(Q)$(CC) -o $@ $(CFLAGS) -c -MMD -MF $@.d $<
 
 $(TESTS): %: %.o
+	$(VECHO) "  LD\t$@\n"
+	$(Q)$(CC) -o $@ $^ $(LDFLAGS)
+	
+$(EXAMPLES): %: %.o
 	$(VECHO) "  LD\t$@\n"
 	$(Q)$(CC) -o $@ $^ $(LDFLAGS)
 
 clean:
 	$(VECHO) "  Cleaning...\n"
-	$(Q)$(RM) $(TESTS) $(TESTS_OK) $(TESTS:=.o) $(TESTS:=.o.d)
+	$(Q)$(RM) \
+	$(TESTS) $(TESTS_OK) $(TESTS:=.o) $(TESTS:=.o.d) \
+	$(EXAMPLES) $(EXAMPLES:=.o) $(EXAMPLES:=.o.d)
 
 -include $(deps)
 style:

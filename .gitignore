@@ -28,3 +28,6 @@ tests/list_splice_tail_init
 .project
 .settings/
 tests/test_list
+examples/insert-sort
+examples/quick-sort
+examples/test_list
