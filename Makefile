@@ -4,7 +4,7 @@ $(GIT_HOOK): scripts/install-git-hooks
 	@echo
 
 .PHONY: all check clean example
-all: check 
+all: check $(GIT_HOOK)
 .DEFAULT_GOAL := all
 
 include common.mk

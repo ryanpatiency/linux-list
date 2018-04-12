@@ -36,6 +36,19 @@ static void list_qsort(struct list_head *head)
     list_splice_tail(&list_greater, head);
 }
 
+/*
+ *  my qsort,
+ *  use the first element as pivot, compare with all the other, and combine
+ *
+ *  so if there is no first element, quit
+ */
+void myqsort(struct list_head *head)
+{
+    if (list_empty(head) || list_is_singular(head)) {
+        return;
+    }
+    struct listitem *item = list_first_entry(head, struct listitem, list);
+}
 int main(void)
 {
     struct list_head testlist;
