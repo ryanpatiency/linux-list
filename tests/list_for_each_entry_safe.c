@@ -25,8 +25,7 @@ int main(void)
 
     i = 0;
 
-    list_for_each_entry_safe (item, is, &testlist, list)
-    {
+    list_for_each_entry_safe (item, is, &testlist, list) {
         assert(item->i == i);
         list_del(&item->list);
         free(item);
