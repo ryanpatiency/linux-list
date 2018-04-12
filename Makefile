@@ -4,7 +4,7 @@ $(GIT_HOOK): scripts/install-git-hooks
 	@echo
 
 .PHONY: all check clean example
-all: check $(GIT_HOOK)
+all: check $(GIT_HOOK) example
 .DEFAULT_GOAL := all
 
 include common.mk
@@ -12,14 +12,14 @@ include common.mk
 CFLAGS = -I./include
 CFLAGS += -std=c99 -pedantic -Wall -W -Werror
 
+
+
 EXAMPLES = \
 	insert-sort \
 	quick-sort \
-	test_list \
+	merge-sort \
 	
 EXAMPLES := $(addprefix examples/,$(EXAMPLES))
-
-example: $(EXAMPLES)
 
 TESTS = \
     containerof \
@@ -76,6 +76,8 @@ $(TESTS): %: %.o
 $(EXAMPLES): %: %.o
 	$(VECHO) "  LD\t$@\n"
 	$(Q)$(CC) -o $@ $^ $(LDFLAGS)
+
+example: $(EXAMPLES)
 
 clean:
 	$(VECHO) "  Cleaning...\n"

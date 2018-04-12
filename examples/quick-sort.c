@@ -1,40 +1,13 @@
 #include <assert.h>
+#include <stddef.h>
+#include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
-#include "list.h"
 
-#include "common.h"
+#include "../include/list.h"
+#include "../private/common.h"
 
 static uint16_t values[256];
-
-static void list_qsort(struct list_head *head)
-{
-    struct list_head list_less, list_greater;
-    struct listitem *pivot;
-    struct listitem *item = NULL, *is = NULL;
-
-    if (list_empty(head) || list_is_singular(head))
-        return;
-
-    INIT_LIST_HEAD(&list_less);
-    INIT_LIST_HEAD(&list_greater);
-
-    pivot = list_first_entry(head, struct listitem, list);
-    list_del(&pivot->list);
-
-    list_for_each_entry_safe (item, is, head, list) {
-        if (cmpint(&item->i, &pivot->i) < 0)
-            list_move_tail(&item->list, &list_less);
-        else
-            list_move(&item->list, &list_greater);
-    }
-
-    list_qsort(&list_less);
-    list_qsort(&list_greater);
-
-    list_add(&pivot->list, head);
-    list_splice(&list_less, head);
-    list_splice_tail(&list_greater, head);
-}
 
 /*
  *  my qsort,
@@ -42,12 +15,30 @@ static void list_qsort(struct list_head *head)
  *
  *  so if there is no first element, quit
  */
-void myqsort(struct list_head *head)
+void myqsort(struct list_head *p_head)
 {
-    if (list_empty(head) || list_is_singular(head)) {
+    if (list_empty(p_head) || list_is_singular(p_head)) {
         return;
     }
-    struct listitem *item = list_first_entry(head, struct listitem, list);
+    struct listitem *p_item = list_first_entry(p_head, struct listitem, list);
+    uint16_t pivot = p_item->i;
+
+    struct list_head less_equal_head;
+    struct list_head larger_head;
+    struct listitem *p_safe;
+    INIT_LIST_HEAD(&less_equal_head);
+    INIT_LIST_HEAD(&larger_head);
+    list_for_each_entry_safe (p_item, p_safe, p_head, list) {
+        if (p_item->i > pivot) {
+            list_move(&p_item->list, &larger_head);
+        } else {
+            list_move(&p_item->list, &less_equal_head);
+        }
+    }
+    myqsort(&less_equal_head);
+    myqsort(&larger_head);
+    list_splice(&larger_head, p_head);
+    list_splice(&less_equal_head, p_head);
 }
 int main(void)
 {
@@ -71,7 +62,7 @@ int main(void)
     assert(!list_empty(&testlist));
 
     qsort(values, ARRAY_SIZE(values), sizeof(values[0]), cmpint);
-    list_qsort(&testlist);
+    myqsort(&testlist);
 
     i = 0;
     list_for_each_entry_safe (item, is, &testlist, list) {
@@ -83,6 +74,6 @@ int main(void)
 
     assert(i == ARRAY_SIZE(values));
     assert(list_empty(&testlist));
-
+    printf("Verified\n");
     return 0;
 }
