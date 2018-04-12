@@ -105,8 +105,7 @@ int main()
      * involves deletions of items (or moving items from one list to another).
      */
     printf("deleting the list using list_for_each_safe()\n");
-    list_for_each_safe(pos, q, &mylist.list)
-    {
+    list_for_each_safe (pos, q, &mylist.list) {
         tmp = list_entry(pos, struct kool_list, list);
         printf("freeing item to= %d from= %d\n", tmp->to, tmp->from);
         list_del(pos);
