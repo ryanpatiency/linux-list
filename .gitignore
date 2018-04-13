@@ -33,3 +33,5 @@ examples/quick-sort
 examples/test_list
 examples/merge-sort
 tests/test_merge_sort
+picture/
+examples/analyze_sort

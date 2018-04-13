@@ -2,8 +2,11 @@
 #include <stdlib.h>
 #include "list.h"
 #include "../examples/merge-sort.c"
+#include "../examples/quick-sort.c"
+#include "../examples/insert-sort.c"
 #include "common.h"
 
+uint16_t values[256];
 int main()
 {
     struct list_head testlist;
@@ -27,6 +30,8 @@ int main()
 
     qsort(values, ARRAY_SIZE(values), sizeof(values[0]), cmpint);
     merge_sort(&testlist);
+    quick_sort(&testlist);
+    insert_sort(&testlist);
     i = 0;
     list_for_each_entry_safe (item, is, &testlist, list) {
         assert(item->i == values[i]);

@@ -3,8 +3,8 @@ $(GIT_HOOK): scripts/install-git-hooks
 	@$<
 	@echo
 
-.PHONY: all check clean example
-all: check $(GIT_HOOK) example
+.PHONY: all check clean example analyze
+all: check $(GIT_HOOK) example analyze
 .DEFAULT_GOAL := all
 
 include common.mk
@@ -12,11 +12,13 @@ include common.mk
 CFLAGS = -I./include
 CFLAGS += -std=c99 -pedantic -Wall -W -Werror -g
 
-
+analyze:
+	gcc -o examples/analyze_sort -I./include  -g examples/analyze_sort.c
 
 EXAMPLES = \
-	insert-sort \
-	quick-sort \
+#	analyze_sort \
+#	quick-sort \
+#	insert-sort \
 #	merge-sort \
 	
 EXAMPLES := $(addprefix examples/,$(EXAMPLES))

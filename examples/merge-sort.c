@@ -21,7 +21,6 @@
 #include "../include/list.h"
 #include "../private/common.h"
 
-static uint16_t values[256];
 void plist(char *name, struct list_head *testlist)
 {
     static int x = 0;
@@ -96,51 +95,4 @@ void merge_sort(struct list_head *list)
         list_splice(tmplist, list);
     }
     free(tmplist);
-}
-int mymain(void)
-{
-    struct list_head testlist;
-    struct listitem *item, *is = NULL;
-    size_t i;
-
-    random_shuffle_array(values, (uint16_t) ARRAY_SIZE(values));
-
-    INIT_LIST_HEAD(&testlist);
-
-    assert(list_empty(&testlist));
-
-    for (i = 0; i < ARRAY_SIZE(values); i++) {
-        item = (struct listitem *) malloc(sizeof(*item));
-        assert(item);
-        item->i = values[i];
-        list_add_tail(&item->list, &testlist);
-    }
-
-    assert(!list_empty(&testlist));
-
-    qsort(values, ARRAY_SIZE(values), sizeof(values[0]), cmpint);
-#ifdef DEBUG
-    printf("the array is :");
-    for (i = 0; i < ARRAY_SIZE(values); i++) {
-        printf("%d, ", values[i]);
-    }
-    printf("\n");
-    merge_sort(&testlist);
-    printf("the list is :");
-    list_for_each_entry (item, &testlist, list) {
-        printf("%d, ", item->i);
-    }
-    printf("\n");
-#endif
-    i = 0;
-    list_for_each_entry_safe (item, is, &testlist, list) {
-        assert(item->i == values[i]);
-        list_del(&item->list);
-        free(item);
-        i++;
-    }
-
-    assert(i == ARRAY_SIZE(values));
-    assert(list_empty(&testlist));
-    return 0;
 }
