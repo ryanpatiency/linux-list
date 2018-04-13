@@ -10,7 +10,7 @@ all: check $(GIT_HOOK) example
 include common.mk
 
 CFLAGS = -I./include
-CFLAGS += -std=c99 -pedantic -Wall -W -Werror
+CFLAGS += -std=c99 -pedantic -Wall -W -Werror -g
 
 
 
