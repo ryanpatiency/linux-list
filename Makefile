@@ -17,7 +17,7 @@ CFLAGS += -std=c99 -pedantic -Wall -W -Werror -g
 EXAMPLES = \
 	insert-sort \
 	quick-sort \
-	merge-sort \
+#	merge-sort \
 	
 EXAMPLES := $(addprefix examples/,$(EXAMPLES))
 
@@ -44,7 +44,8 @@ TESTS = \
     list_splice_tail \
     list_splice_init \
     list_splice_tail_init \
-    list_cut_position 
+    list_cut_position \
+    test_merge_sort
 
 TESTS := $(addprefix tests/,$(TESTS))
 # dependency of source files

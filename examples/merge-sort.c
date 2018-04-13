@@ -97,7 +97,7 @@ void merge_sort(struct list_head *list)
     }
     free(tmplist);
 }
-int main(void)
+int mymain(void)
 {
     struct list_head testlist;
     struct listitem *item, *is = NULL;
@@ -142,6 +142,5 @@ int main(void)
 
     assert(i == ARRAY_SIZE(values));
     assert(list_empty(&testlist));
-    printf("Verified\n");
     return 0;
 }
