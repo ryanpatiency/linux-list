@@ -31,3 +31,4 @@ tests/test_list
 examples/insert-sort
 examples/quick-sort
 examples/test_list
+examples/merge-sort
